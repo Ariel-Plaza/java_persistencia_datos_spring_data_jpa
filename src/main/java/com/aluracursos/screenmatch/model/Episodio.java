@@ -15,6 +15,7 @@ public class Episodio {
         this.titulo = d.titulo();
         this.numeroEpisodio = d.numeroEpisodio();
         try{
+//            Convierte los datos a Double
             this.evaluacion = Double.valueOf(d.evaluacion());
         }catch (NumberFormatException e){
             this.evaluacion = 0.0;

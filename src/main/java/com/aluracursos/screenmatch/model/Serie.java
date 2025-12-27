@@ -1,15 +1,36 @@
 package com.aluracursos.screenmatch.model;
-import java.util.OptionalDouble;
+import jakarta.persistence.*;
 
+import java.util.List;
+import java.util.OptionalDouble;
+//Indico que esta clase se utilizara como tabla en a BD
+@Entity
+//puedo definir el nombre de la tabla
+@Table(name = "series")
 public class Serie {
+//    defino el id,
+    @Id
+//    forma en como se gestiona el id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+//    que campo no se repita
+    @Column(unique = true)
     private String titulo;
     private Integer totalTemporadas;
     private Double evaluacion;
     private String poster;
+//    Indicamos que valor es un enumerated
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String actores;
     private String sinopsis;
     private String pais;
+
+    @Transient
+    private List<Episodio> episodios;
+
+//    Constructor predeterminado requerido por JPA
+    public Serie(){}
 //Constructor de Serie
 //    se basa en DatosSerie
     public Serie(DatosSerie datosSerie){
@@ -37,6 +58,14 @@ public class Serie {
                 ", actores='" + actores + '\'' +
                 ", sinopsis='" + sinopsis + '\'' +
                 ", pais='" + pais + '\'' ;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getPais() {

@@ -3,6 +3,7 @@ package com.aluracursos.screenmatch.principal;
 import com.aluracursos.screenmatch.model.DatosSerie;
 import com.aluracursos.screenmatch.model.DatosTemporadas;
 import com.aluracursos.screenmatch.model.Serie;
+import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
 import java.util.ArrayList;
@@ -20,6 +21,12 @@ public class Principal {
 
     //Creacion de una lista en base a DatosSerie
     private List<DatosSerie> datosSeries = new ArrayList<>();
+    // tipo de dato
+    private SerieRepository repositorio;
+//    creo el constructor
+    public Principal(SerieRepository repository) {
+        this.repositorio = repository;
+    }
 
     public void muestraElMenu() {
         var opcion = -1;
@@ -93,7 +100,11 @@ public class Principal {
     //obtiene los datos de la serie
         DatosSerie datos = getDatosSerie();
 //        agrega los datos a la lista de series
-        datosSeries.add(datos);
+//        datosSeries.add(datos);
+//        Guardar en la BD, creamos instancia de serie
+        Serie serie = new Serie(datos);
+        //agrego los datos a la BD.
+        repositorio.save(serie);
         System.out.println(datos);
 
     }
@@ -101,21 +112,22 @@ public class Principal {
     private void mostrarSeriesBuscadas() {
 //        muestra la lista de las series
 //        datosSeries.forEach(System.out::println);
+//       USO DE BD
+        List<Serie> series = repositorio.findAll();
 //    Creacion de lista en base al dato Serie
-        List<Serie> series =  new ArrayList<>();
-//        agrega datosSeries al array lo convierte en stream
-        series = datosSeries.stream()
-//                transforma cada elemento DatoSerie en un objeto Serie(funcion lambda)
-                .map(d -> new Serie(d))
-//                los agrupa en una lista
-                .collect(Collectors.toList());
+//        List<Serie> series =  new ArrayList<>();
+////        agrega datosSeries al array lo convierte en stream
+//        series = datosSeries.stream()
+////                transforma cada elemento DatoSerie en un objeto Serie(funcion lambda)
+//                .map(d -> new Serie(d))
+////                los agrupa en una lista
+//                .collect(Collectors.toList());
 //        toma  la lista y lo convierte en stream
         series.stream()
 //                ordena por genero de serie
                 .sorted(Comparator.comparing(Serie::getGenero))
 //                imprime las series
                 .forEach(System.out::println);
-
     }
 
 }

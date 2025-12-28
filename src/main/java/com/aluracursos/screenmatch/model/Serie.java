@@ -25,8 +25,10 @@ public class Serie {
     private String actores;
     private String sinopsis;
     private String pais;
-
-    @Transient
+//no realiza relacion
+//    @Transient
+//Relacion
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios;
 
 //    Constructor predeterminado requerido por JPA
@@ -131,6 +133,4 @@ public class Serie {
     public void setSinopsis(String sinopsis) {
         this.sinopsis = sinopsis;
     }
-
 }
-

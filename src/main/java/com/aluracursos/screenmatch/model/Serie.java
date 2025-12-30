@@ -28,7 +28,7 @@ public class Serie {
 //no realiza relacion
 //    @Transient
 //Relacion
-    @OneToMany(mappedBy = "serie")
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodio> episodios;
 
 //    Constructor predeterminado requerido por JPA
@@ -59,11 +59,22 @@ public class Serie {
                 ", poster='" + poster + '\'' +
                 ", actores='" + actores + '\'' +
                 ", sinopsis='" + sinopsis + '\'' +
-                ", pais='" + pais + '\'' ;
+                ", pais='" + pais + '\''+
+                ", episodios='" + episodios + '\'' ;
     }
 
     public Long getId() {
         return Id;
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        //para cada uno de los episodios setiar el valor de la misma serie
+        episodios.forEach(e ->e.setSerie(this));
+        this.episodios = episodios;
     }
 
     public void setId(Long id) {
